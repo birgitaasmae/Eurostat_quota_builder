@@ -1252,7 +1252,8 @@ function buildQuotas() {
     if (regionalBands.some(b => !b.exact)) {
       warningLabels.push('Regional distribution');
     }
-    setSectionMeta('regionSection', `Year: ${selectedYear}. Bands used: ${regionalBands.map(b => humanAgeBand(b.code)).join(', ')}.`);
+    const regionalCodes = regionalBands.map(b => b.code);
+    setSectionMeta('regionSection', `Year: ${selectedYear}. Bands used: ${regionalCodes.map(humanAgeBand).join(', ')}.${getExtraAgeText(regionalCodes)}`);
     const regionalTotal = sexes.reduce((s,x) => s + aggregateRegionalPop(x, regionalBands, null), 0);
     const regionRows = geos.map(g => ({
       geo: g,
@@ -1286,6 +1287,38 @@ function buildQuotas() {
     };
   }
 
+  function formatAgeRanges(ages) {
+    if (!ages.length) return '';
+    const sorted = [...new Set(ages)].sort((a,b) => a - b);
+    const ranges = [];
+    let start = sorted[0];
+    let prev = sorted[0];
+    for (let i = 1; i < sorted.length; i++) {
+      if (sorted[i] === prev + 1) {
+        prev = sorted[i];
+        continue;
+      }
+      ranges.push(start === prev ? `${start}` : `${start}-${prev}`);
+      start = sorted[i];
+      prev = sorted[i];
+    }
+    ranges.push(start === prev ? `${start}` : `${start}-${prev}`);
+    return ranges.join(', ');
+  }
+
+  function getExtraAgeText(bandCodes) {
+    const extras = [];
+    for (const code of bandCodes) {
+      const r = bandRange(code);
+      if (!r) continue;
+      const hi = Math.min(r[1], 99);
+      for (let age = r[0]; age <= hi; age++) {
+        if (age < minAge || age > maxAge) extras.push(age);
+      }
+    }
+    return extras.length ? ` Includes extra ages outside your range: ${formatAgeRanges(extras)}.` : '';
+  }
+
   // Helper for LFS-based tables
   function buildLfsTable(sectionId, tableId, codes, labels, mapData, dimName, multiplier, ageBands, warningLabel, requireCompleteCategories) {
     const section = document.getElementById(sectionId);
@@ -1307,7 +1340,7 @@ function buildQuotas() {
       if (!check.exactOnly) {
         warningLabels.push(warningLabel);
       }
-      setSectionMeta(sectionId, `Year: ${selectedYear}. Bands used: ${selectedAgeBands.map(humanAgeBand).join(', ')}.`);
+      setSectionMeta(sectionId, `Year: ${selectedYear}. Bands used: ${selectedAgeBands.map(humanAgeBand).join(', ')}.${getExtraAgeText(selectedAgeBands)}`);
     } else {
       setSectionMeta(sectionId, '');
     }
@@ -1373,7 +1406,7 @@ function buildQuotas() {
     buildLfsTable('urbanSection','urbanTable', URBAN_DEGREES, 'Urbanisation', lfsData.urban, null, undefined, DATASET_AGE_BANDS['lfsa_pgauws'], 'Degree of urbanisation', false);
     if (document.getElementById('urbanSection').style.display !== 'none') {
       const urbanBands = checkAgeBands(DATASET_AGE_BANDS['lfsa_pgauws']).overlapping;
-      setSectionMeta('urbanSection', `Year: ${selectedYear}. Bands used: ${urbanBands.map(humanAgeBand).join(', ')}. Cities means most people live in dense urban grid cells, towns and suburbs means most live in medium-density clusters, and rural areas means most live in low-density countryside grid cells.`);
+      setSectionMeta('urbanSection', `Year: ${selectedYear}. Bands used: ${urbanBands.map(humanAgeBand).join(', ')}.${getExtraAgeText(urbanBands)} This is based on how built-up the area is: cities are the most urban, towns and suburbs are in-between, and rural areas are the least urban.`);
     }
   } else { document.getElementById('urbanSection').style.display = 'none'; setSectionMeta('urbanSection', ''); }
 
