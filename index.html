@@ -1202,6 +1202,7 @@ function buildQuotas() {
   const sampleSize = +sampleEl.value;
   const minAge = +minAgeEl.value;
   const maxAge = +maxAgeEl.value;
+  const selectedYear = yearEl.value;
   const grouping = +document.querySelector('input[name="agegrp"]:checked').value;
   const sexFilterVal = document.querySelector('input[name="sexf"]:checked').value;
   const sexes = sexFilterVal === 'MF' ? ['M','F'] : [sexFilterVal];
@@ -1251,7 +1252,7 @@ function buildQuotas() {
     if (regionalBands.some(b => !b.exact)) {
       warningLabels.push('Regional distribution');
     }
-    setSectionMeta('regionSection', `Bands used: ${regionalBands.map(b => humanAgeBand(b.code)).join(', ')}.`);
+    setSectionMeta('regionSection', `Year: ${selectedYear}. Bands used: ${regionalBands.map(b => humanAgeBand(b.code)).join(', ')}.`);
     const regionalTotal = sexes.reduce((s,x) => s + aggregateRegionalPop(x, regionalBands, null), 0);
     const regionRows = geos.map(g => ({
       geo: g,
@@ -1306,7 +1307,7 @@ function buildQuotas() {
       if (!check.exactOnly) {
         warningLabels.push(warningLabel);
       }
-      setSectionMeta(sectionId, `Bands used: ${selectedAgeBands.map(humanAgeBand).join(', ')}.`);
+      setSectionMeta(sectionId, `Year: ${selectedYear}. Bands used: ${selectedAgeBands.map(humanAgeBand).join(', ')}.`);
     } else {
       setSectionMeta(sectionId, '');
     }
@@ -1371,7 +1372,8 @@ function buildQuotas() {
   if (selected.includes('urban')) {
     buildLfsTable('urbanSection','urbanTable', URBAN_DEGREES, 'Urbanisation', lfsData.urban, null, undefined, DATASET_AGE_BANDS['lfsa_pgauws'], 'Degree of urbanisation', false);
     if (document.getElementById('urbanSection').style.display !== 'none') {
-      setSectionMeta('urbanSection', 'Eurostat classifies local areas from 1 km² population grid cells: cities if at least 50% live in urban centres, towns and suburbs if at least 50% live in urban clusters but less than 50% in urban centres, and rural areas if more than 50% live in rural grid cells.');
+      const urbanBands = checkAgeBands(DATASET_AGE_BANDS['lfsa_pgauws']).overlapping;
+      setSectionMeta('urbanSection', `Year: ${selectedYear}. Bands used: ${urbanBands.map(humanAgeBand).join(', ')}. Cities means most people live in dense urban grid cells, towns and suburbs means most live in medium-density clusters, and rural areas means most live in low-density countryside grid cells.`);
     }
   } else { document.getElementById('urbanSection').style.display = 'none'; setSectionMeta('urbanSection', ''); }
 
