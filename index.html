@@ -1361,7 +1361,7 @@ function buildQuotas() {
   if (selected.includes('urban')) {
     buildLfsTable('urbanSection','urbanTable', URBAN_DEGREES, 'Urbanisation', lfsData.urban, null, undefined, DATASET_AGE_BANDS['lfsa_pgauws'], 'Degree of urbanisation', false);
     if (document.getElementById('urbanSection').style.display !== 'none') {
-      setSectionMeta('urbanSection', 'People in private households split into cities, towns and suburbs, and rural areas.');
+      setSectionMeta('urbanSection', 'Eurostat classifies local areas from 1 km² population grid cells: cities if at least 50% live in urban centres, towns and suburbs if at least 50% live in urban clusters but less than 50% in urban centres, and rural areas if more than 50% live in rural grid cells.');
     }
   } else { document.getElementById('urbanSection').style.display = 'none'; setSectionMeta('urbanSection', ''); }
 
