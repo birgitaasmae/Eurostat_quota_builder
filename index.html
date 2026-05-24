@@ -1253,7 +1253,7 @@ function buildQuotas() {
       warningLabels.push('Regional distribution');
     }
     const regionalCodes = regionalBands.map(b => b.code);
-    setSectionMeta('regionSection', `Year: ${selectedYear}. Bands used: ${regionalCodes.map(humanAgeBand).join(', ')}.${getExtraAgeText(regionalCodes)}`);
+    setSectionMeta('regionSection', `Bands used: ${regionalCodes.map(humanAgeBand).join(', ')}.${getExtraAgeText(regionalCodes)}`);
     const regionalTotal = sexes.reduce((s,x) => s + aggregateRegionalPop(x, regionalBands, null), 0);
     const regionRows = geos.map(g => ({
       geo: g,
@@ -1340,7 +1340,7 @@ function buildQuotas() {
       if (!check.exactOnly) {
         warningLabels.push(warningLabel);
       }
-      setSectionMeta(sectionId, `Year: ${selectedYear}. Bands used: ${selectedAgeBands.map(humanAgeBand).join(', ')}.${getExtraAgeText(selectedAgeBands)}`);
+      setSectionMeta(sectionId, `Bands used: ${selectedAgeBands.map(humanAgeBand).join(', ')}.${getExtraAgeText(selectedAgeBands)}`);
     } else {
       setSectionMeta(sectionId, '');
     }
@@ -1406,7 +1406,7 @@ function buildQuotas() {
     buildLfsTable('urbanSection','urbanTable', URBAN_DEGREES, 'Urbanisation', lfsData.urban, null, undefined, DATASET_AGE_BANDS['lfsa_pgauws'], 'Degree of urbanisation', false);
     if (document.getElementById('urbanSection').style.display !== 'none') {
       const urbanBands = checkAgeBands(DATASET_AGE_BANDS['lfsa_pgauws']).overlapping;
-      setSectionMeta('urbanSection', `Year: ${selectedYear}. Bands used: ${urbanBands.map(humanAgeBand).join(', ')}.${getExtraAgeText(urbanBands)} This is based on how built-up the area is: cities are the most urban, towns and suburbs are in-between, and rural areas are the least urban.`);
+      setSectionMeta('urbanSection', `Bands used: ${urbanBands.map(humanAgeBand).join(', ')}.${getExtraAgeText(urbanBands)} Cities: a Local Administrative Unit (LAU) is classified as a city if at least 50% of its population lives in an urban centre of at least 50,000 inhabitants. Towns and suburbs: less than 50% of the population lives in an urban centre, but at least 50% lives in an urban cluster of at least 5,000 inhabitants with a density of 300 inhabitants per km2. Rural areas: these cells have very low population density, with most of the land area containing fewer than 300 inhabitants per km2.`);
     }
   } else { document.getElementById('urbanSection').style.display = 'none'; setSectionMeta('urbanSection', ''); }
 
