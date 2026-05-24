@@ -171,6 +171,7 @@ tfoot td { font-weight: 700; border-top: 2px solid var(--accent); background: va
     <div class="control-group">
       <label>Age Grouping</label>
       <div class="radio-group">
+        <label><input type="radio" name="agegrp" value="1"><span>1-year</span></label>
         <label><input type="radio" name="agegrp" value="5" checked><span>5-year</span></label>
         <label><input type="radio" name="agegrp" value="10"><span>10-year</span></label>
         <label><input type="radio" name="agegrp" value="15"><span>15-year</span></label>
@@ -1067,6 +1068,15 @@ function lfsAgeFraction(lfsBand, minAge, maxAge) {
 }
 
 function mergeAgeBands(bands, grouping) {
+  if (grouping === 1) {
+    const singles = [];
+    for (const band of bands) {
+      for (const age of band.ages) {
+        singles.push({ codes:[`Y${age}`], ages:[age], fullBand:true, label:String(age) });
+      }
+    }
+    return singles;
+  }
   if (grouping === 5) {
     return bands.map(b => ({ codes:[b.code], ages:b.ages.slice(), fullBand:b.fullBand, label:b.label }));
   }
@@ -1227,7 +1237,7 @@ function buildQuotas() {
     rows: ageBands.map((ab,i) => [ab.label,fmt(ap[i]),pct(ap[i]/totalPop),aq[i]]),
     footer: ['Total',fmt(totalPop),'100.0%',sampleSize], numCols:[1,2,3]
   });
-  setSectionMeta('ageSection', grouping === 5 ? '' : `${grouping}-year display bands.`);
+  setSectionMeta('ageSection', grouping <= 5 ? '' : `${grouping}-year display bands.`);
 
   // Region
   if (regionalBands.length === 0) {
@@ -1384,7 +1394,7 @@ function buildQuotas() {
     for (let a = 0; a < ageBands.length; a++) ct.push(cq[a]+cq[ageBands.length+a]);
     ct.push(sampleSize);
     renderTable('crossTable', { headers:ch, rows:cr, footer:ct, numCols: Array.from({length:ageBands.length+1},(_,i)=>i+1) });
-    setSectionMeta('crossSection', grouping === 5 ? '' : `${grouping}-year display bands.`);
+    setSectionMeta('crossSection', grouping <= 5 ? '' : `${grouping}-year display bands.`);
   } else crossSection.style.display = 'none';
 
   resultsEl.classList.add('visible');
