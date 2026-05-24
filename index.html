@@ -209,7 +209,7 @@ tfoot td { font-weight: 700; border-top: 2px solid var(--accent); background: va
       <div class="table-header">
         <div class="header-main">
           <h2>Sex Distribution</h2>
-          <div class="table-source">demo_pjan</div>
+          <div class="table-source">Table: demo_pjan</div>
         </div>
         <div class="table-actions">
           <button class="btn btn-secondary" onclick="copyTable('sexTable')">Copy</button>
@@ -223,7 +223,7 @@ tfoot td { font-weight: 700; border-top: 2px solid var(--accent); background: va
       <div class="table-header">
         <div class="header-main">
           <h2>Age Group Distribution</h2>
-          <div class="table-source">demo_pjan</div>
+          <div class="table-source">Table: demo_pjan</div>
         </div>
         <div class="table-actions">
           <button class="btn btn-secondary" onclick="copyTable('ageTable')">Copy</button>
@@ -237,7 +237,7 @@ tfoot td { font-weight: 700; border-top: 2px solid var(--accent); background: va
       <div class="table-header">
         <div class="header-main">
           <h2>Regional Distribution</h2>
-          <div class="table-source">demo_r_pjangrp3</div>
+          <div class="table-source">Table: demo_r_pjangrp3</div>
         </div>
         <div class="table-actions">
           <button class="btn btn-secondary" onclick="copyTable('regionTable')">Copy</button>
@@ -249,7 +249,7 @@ tfoot td { font-weight: 700; border-top: 2px solid var(--accent); background: va
 
     <div class="table-section" id="educSection" style="display:none">
       <div class="table-header">
-        <div class="header-main"><h2>Education Level</h2><div class="table-source">demo_pjanedu</div></div>
+        <div class="header-main"><h2>Education Level</h2><div class="table-source">Table: demo_pjanedu</div></div>
         <div class="table-actions">
           <button class="btn btn-secondary" onclick="copyTable('educTable')">Copy</button>
           <button class="btn btn-secondary" onclick="downloadXLSX('educTable','education_quotas.xlsx')">XLSX</button>
@@ -260,7 +260,7 @@ tfoot td { font-weight: 700; border-top: 2px solid var(--accent); background: va
 
     <div class="table-section" id="employSection" style="display:none">
       <div class="table-header">
-        <div class="header-main"><h2>Labour Status</h2><div class="table-source">lfsa_pgauws</div></div>
+        <div class="header-main"><h2>Labour Status</h2><div class="table-source">Table: lfsa_pgauws</div></div>
         <div class="table-actions">
           <button class="btn btn-secondary" onclick="copyTable('employTable')">Copy</button>
           <button class="btn btn-secondary" onclick="downloadXLSX('employTable','employment_quotas.xlsx')">XLSX</button>
@@ -271,7 +271,7 @@ tfoot td { font-weight: 700; border-top: 2px solid var(--accent); background: va
 
     <div class="table-section" id="urbanSection" style="display:none">
       <div class="table-header">
-        <div class="header-main"><h2>Degree of Urbanisation</h2><div class="table-source">lfsa_pgauws</div></div>
+        <div class="header-main"><h2>Degree of Urbanisation</h2><div class="table-source">Table: lfsa_pgauws</div></div>
         <div class="table-actions">
           <button class="btn btn-secondary" onclick="copyTable('urbanTable')">Copy</button>
           <button class="btn btn-secondary" onclick="downloadXLSX('urbanTable','urbanisation_quotas.xlsx')">XLSX</button>
@@ -282,7 +282,7 @@ tfoot td { font-weight: 700; border-top: 2px solid var(--accent); background: va
 
     <div class="table-section" id="occupSection" style="display:none">
       <div class="table-header">
-        <div class="header-main"><h2>Occupation (ISCO-08)</h2><div class="table-source">lfsa_egais</div></div>
+        <div class="header-main"><h2>Occupation (ISCO-08)</h2><div class="table-source">Table: lfsa_egais</div></div>
         <div class="table-actions">
           <button class="btn btn-secondary" onclick="copyTable('occupTable')">Copy</button>
           <button class="btn btn-secondary" onclick="downloadXLSX('occupTable','occupation_quotas.xlsx')">XLSX</button>
@@ -293,7 +293,7 @@ tfoot td { font-weight: 700; border-top: 2px solid var(--accent); background: va
 
     <div class="table-section" id="citizenSection" style="display:none">
       <div class="table-header">
-        <div class="header-main"><h2>Citizenship</h2><div class="table-source">lfsa_pganws</div></div>
+        <div class="header-main"><h2>Citizenship</h2><div class="table-source">Table: lfsa_pganws</div></div>
         <div class="table-actions">
           <button class="btn btn-secondary" onclick="copyTable('citizenTable')">Copy</button>
           <button class="btn btn-secondary" onclick="downloadXLSX('citizenTable','citizenship_quotas.xlsx')">XLSX</button>
@@ -304,7 +304,7 @@ tfoot td { font-weight: 700; border-top: 2px solid var(--accent); background: va
 
     <div class="table-section" id="cobSection" style="display:none">
       <div class="table-header">
-        <div class="header-main"><h2>Country of Birth</h2><div class="table-source">lfsa_pgacws</div></div>
+        <div class="header-main"><h2>Country of Birth</h2><div class="table-source">Table: lfsa_pgacws</div></div>
         <div class="table-actions">
           <button class="btn btn-secondary" onclick="copyTable('cobTable')">Copy</button>
           <button class="btn btn-secondary" onclick="downloadXLSX('cobTable','country_of_birth_quotas.xlsx')">XLSX</button>
@@ -317,7 +317,7 @@ tfoot td { font-weight: 700; border-top: 2px solid var(--accent); background: va
       <div class="table-header">
         <div class="header-main">
           <h2>Cross-tab: Sex x Age (Interlocked Quotas)</h2>
-          <div class="table-source">demo_pjan</div>
+          <div class="table-source">Table: demo_pjan</div>
         </div>
         <div class="table-actions">
           <button class="btn btn-secondary" onclick="copyTable('crossTable')">Copy</button>
@@ -1360,6 +1360,9 @@ function buildQuotas() {
   // Urbanisation (5-year bands)
   if (selected.includes('urban')) {
     buildLfsTable('urbanSection','urbanTable', URBAN_DEGREES, 'Urbanisation', lfsData.urban, null, undefined, DATASET_AGE_BANDS['lfsa_pgauws'], 'Degree of urbanisation', false);
+    if (document.getElementById('urbanSection').style.display !== 'none') {
+      setSectionMeta('urbanSection', 'People in private households split into cities, towns and suburbs, and rural areas.');
+    }
   } else { document.getElementById('urbanSection').style.display = 'none'; setSectionMeta('urbanSection', ''); }
 
   // Cross-tab
