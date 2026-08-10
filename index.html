@@ -90,13 +90,6 @@ tfoot td { font-weight: 700; border-top: 2px solid var(--accent); background: va
 .extra-data h3 { font-size: 0.85rem; font-weight: 700; color: var(--accent-dark); text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 0.9rem; }
 .section-head { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.7rem; }
 .section-head h3 { margin-bottom: 0; }
-.availability-panel { margin-bottom: 1rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0.5rem; }
-.availability-item { border: 1px solid #d8dfd5; border-radius: 8px; background: #f5f7f6; padding: 0.7rem 0.8rem; font-size: 0.84rem; }
-.availability-item strong { display: block; margin-bottom: 0.2rem; font-size: 0.81rem; color: var(--accent-dark); font-weight: 600; }
-.availability-item span { color: var(--text-muted); }
-.availability-item.is-limited { border-color: #d0e8e2; background: #e8f9f5; }
-.availability-item.is-unavailable { border-color: #e8d8d0; background: #faf6f3; }
-.availability-empty { margin-bottom: 0.9rem; font-size: 0.84rem; color: var(--text-muted); }
 .sources-line { margin-bottom: 1rem; font-size: 0.84rem; color: var(--text-muted); display: flex; align-items: center; gap: 0.45rem; }
 .extra-data-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 0.5rem; }
 .extra-data-list label { display: flex; align-items: center; gap: 0.5rem; font-size: 0.9rem; cursor: pointer; padding: 0.75rem 0.85rem; border-radius: 8px; transition: all 0.15s; border: 1px solid #e0e5e2; background: var(--norstat-light); }
@@ -184,7 +177,6 @@ tfoot td { font-weight: 700; border-top: 2px solid var(--accent); background: va
     <div class="section-head">
       <h3>Additional quota variables</h3>
     </div>
-    <div id="availabilityPanel" class="availability-panel"></div>
     <div class="extra-data-list">
       <label><input type="checkbox" name="extra" value="educ" checked> Education level (ISCED) <span class="year-badge" id="yr_educ">...</span></label>
       <label><input type="checkbox" name="extra" value="employ" checked> Labour status <span class="year-badge" id="yr_employ">...</span></label>
@@ -419,7 +411,6 @@ const buildBtn = document.getElementById('buildBtn');
 const statusEl = document.getElementById('status');
 const warningEl = document.getElementById('warning');
 const resultsEl = document.getElementById('results');
-const availabilityPanelEl = document.getElementById('availabilityPanel');
 const actionNoteEl = document.getElementById('actionNote');
 
 function initAgeDropdowns() {
@@ -619,34 +610,7 @@ function getRequestedAgeCodes(datasetKey, minAge, maxAge) {
 }
 
 function renderAvailabilityPanel(availability, latestYears = {}, selectedYear = '', cc = '') {
-  if (!availabilityPanelEl) return;
-  if (!availability) {
-    availabilityPanelEl.innerHTML = '';
-    return;
-  }
-
-  const order = ['educ', 'employ', 'urban', 'occup', 'citizen', 'cob'];
-  const items = order.map(key => {
-    const latestYr = latestYears[key];
-    const yearTooNew = latestYr && selectedYear && Number(selectedYear) > Number(latestYr);
-    const item = yearTooNew
-      ? {
-          available: false,
-          status: 'unavailable',
-          message: `No data for ${selectedYear}. Latest for ${cc || 'this country'}: ${latestYr}.`
-        }
-      : (availability[key] || { available: false, status: 'unavailable', message: 'No data check yet.' });
-    const label = EXTRA_LABELS[key] || key;
-    const statusClass = item.status === 'available' ? '' : (item.status === 'limited' ? ' is-limited' : ' is-unavailable');
-    return { html: `<div class="availability-item${statusClass}"><strong>${label}</strong><span>${item.message || 'No data available.'}</span></div>`, status: item.status };
-  }).filter(item => item.status !== 'available');
-
-  if (!items.length) {
-    availabilityPanelEl.innerHTML = '<div class="availability-empty">Selected extras look available.</div>';
-    return;
-  }
-
-  availabilityPanelEl.innerHTML = items.map(item => item.html).join('');
+  return;
 }
 
 function buildBandMessage(prefix, bands) {
